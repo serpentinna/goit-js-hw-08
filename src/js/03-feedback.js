@@ -1,46 +1,46 @@
-import throttle from 'lodash.throttle';
+// import throttle from 'lodash.throttle';
 
-const feedbackFormRef = document.querySelectorAll('.feedback-form');
-const feedbackFormState = "feedback-form-state";
+// const feedbackFormRef = document.querySelectorAll('.feedback-form');
+// const feedbackFormState = "feedback-form-state";
 
-feedbackFormRef.addEventListener('input', throttle(event => {
-    localStorage.setItem(feedbackFormState, event.currentTarget.value);},
-        500),);
-
-
+// feedbackFormRef.addEventListener('input', throttle(event => {
+//     localStorage.setItem(feedbackFormState, event.currentTarget.value);},
+//         500),);
 
 
 
-const STORAGE_KEY = 'feedback-form-state';
-let formData = {};
 
-const feedbackFormRef = document.querySelector('form.feedback-form');
-feedbackFormRef.addEventListener('input', throttle(onFeedbackFormInput, 500));
-feedbackFormRef.addEventListener('submit', onFeedbackFormSubmit);
 
-readLocaleStorage();
+// const STORAGE_KEY = 'feedback-form-state';
+// let formData = {};
 
-function readLocaleStorage() {
-  const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
+// const feedbackFormRef = document.querySelector('form.feedback-form');
+// feedbackFormRef.addEventListener('input', throttle(onFeedbackFormInput, 500));
+// feedbackFormRef.addEventListener('submit', onFeedbackFormSubmit);
 
-  if (!data) return;
+// readLocaleStorage();
 
-  formData = data;
-  const formDataKeys = Object.keys(formData);
-  formDataKeys.forEach(key => (feedbackFormRef.elements[key].value = formData[key]));
-}
+// function readLocaleStorage() {
+//   const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
 
-function onFeedbackFormInput(event) {
-  formData[event.target.name] = event.target.value;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-}
+//   if (!data) return;
 
-function onFeedbackFormSubmit(event) {
-  event.preventDefault();
+//   formData = data;
+//   const formDataKeys = Object.keys(formData);
+//   formDataKeys.forEach(key => (feedbackFormRef.elements[key].value = formData[key]));
+// }
 
-  console.log(formData);
+// function onFeedbackFormInput(event) {
+//   formData[event.target.name] = event.target.value;
+//   localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+// }
 
-  formData = {};
-  event.currentTarget.reset();
-  localStorage.removeItem(STORAGE_KEY);
-}        
+// function onFeedbackFormSubmit(event) {
+//   event.preventDefault();
+
+//   console.log(formData);
+
+//   formData = {};
+//   event.currentTarget.reset();
+//   localStorage.removeItem(STORAGE_KEY);
+// }        
