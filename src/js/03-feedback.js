@@ -1,46 +1,38 @@
-// import throttle from 'lodash.throttle';
+import throttle from 'lodash.throttle';
 
-// const feedbackFormRef = document.querySelectorAll('.feedback-form');
-// const feedbackFormState = "feedback-form-state";
-
-// feedbackFormRef.addEventListener('input', throttle(event => {
-//     localStorage.setItem(feedbackFormState, event.currentTarget.value);},
-//         500),);
+const feedbackForm = document.querySelector('form');
 
 
+feedbackForm.addEventListener('input', throttle(onInputChange, 500));
+feedbackForm.addEventListener('submit', onSubmit);
+
+const LOCALSTORAGE_KEY = "feedback-form-state";
+const formData = {};
+
+showUnsentData();
 
 
+function onInputChange(event) {
+    formData[event.target.name] = event.target.value;
+    localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(formData));
+    
+}
 
-// const STORAGE_KEY = 'feedback-form-state';
-// let formData = {};
+function showUnsentData(event) {
+    let savedData = localStorage.getItem(LOCALSTORAGE_KEY);
 
-// const feedbackFormRef = document.querySelector('form.feedback-form');
-// feedbackFormRef.addEventListener('input', throttle(onFeedbackFormInput, 500));
-// feedbackFormRef.addEventListener('submit', onFeedbackFormSubmit);
+    if (savedData) {
+        savedData = JSON.parse(savedData);
+        Object.entries(savedData).forEach(([name, value]) => {
+            formData[name] = value;
+            feedbackForm.elements[name].value = value;
+        });
+    }
+}
 
-// readLocaleStorage();
-
-// function readLocaleStorage() {
-//   const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
-
-//   if (!data) return;
-
-//   formData = data;
-//   const formDataKeys = Object.keys(formData);
-//   formDataKeys.forEach(key => (feedbackFormRef.elements[key].value = formData[key]));
-// }
-
-// function onFeedbackFormInput(event) {
-//   formData[event.target.name] = event.target.value;
-//   localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-// }
-
-// function onFeedbackFormSubmit(event) {
-//   event.preventDefault();
-
-//   console.log(formData);
-
-//   formData = {};
-//   event.currentTarget.reset();
-//   localStorage.removeItem(STORAGE_KEY);
-// }        
+function onSubmit(event) {
+    event.preventDefault();
+    event.target.reset();
+    localStorage.removeItem(LOCALSTORAGE_KEY);
+    console.log(formData);
+}
