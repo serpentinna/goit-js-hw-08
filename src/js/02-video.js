@@ -8,10 +8,14 @@ const iframe = document.querySelector('#vimeo-player');
 
 
 player.on('timeupdate', throttle(onPlay, 1000));
-    
-player.setCurrentTime(localStorage.getItem(LOCALSTORAGE_KEY));
 
 function onPlay(event) {
     localStorage.setItem(LOCALSTORAGE_KEY, event.seconds);
 }
 
+
+let savedTime = localStorage.getItem(LOCALSTORAGE_KEY);
+
+if (savedTime) {
+   player.setCurrentTime(savedTime); 
+}

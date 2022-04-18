@@ -7,7 +7,7 @@ feedbackForm.addEventListener('input', throttle(onInputChange, 500));
 feedbackForm.addEventListener('submit', onSubmit);
 
 const LOCALSTORAGE_KEY = "feedback-form-state";
-const formData = {};
+let formData = {};
 
 showUnsentData();
 
@@ -32,7 +32,9 @@ function showUnsentData(event) {
 
 function onSubmit(event) {
     event.preventDefault();
+    
     event.target.reset();
     localStorage.removeItem(LOCALSTORAGE_KEY);
     console.log(formData);
+    formData = {};
 }
